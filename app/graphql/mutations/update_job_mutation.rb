@@ -11,7 +11,12 @@ module Mutations
 
       job = Job.find(id)
 
-      job.update(attributes.to_h) ? { job: job } : { errors: job.errors }
+      if job.update(attributes.to_h)
+        TrabajosSchema.subscriptions.trigger("jobUpdated", {}, job)
+        { job: job }
+      else
+        { errors: job.errors }
+      end
     end
   end
 end
