@@ -23,7 +23,8 @@ default: &default
 
 development:
   <<: *default
-  database: trabajos_development
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
+  # database: trabajos_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +58,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: trabajos_test
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: trabajos_production
-  username: trabajos
-  password: <%= ENV["TRABAJOS_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_production?') %>

@@ -1,0 +1,1 @@
+DATABASE_URL: postgresql://kervin:password@localhost:5432/trabajos?

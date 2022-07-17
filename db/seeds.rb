@@ -5,3 +5,44 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+# db/seeds.rb
+john = User.create!(
+    email: "john.doe@example.com",
+    first_name: "John",
+    last_name: "Doe"
+  )
+  
+  jane = User.create!(
+    email: "jane.doe@example.com",
+    first_name: "Jane",
+    last_name: "Doe"
+  )
+  
+  Job.create!(
+    [
+      {
+        title: "Martian Chronicles",
+        description: "Cult book by Ray Bradbury",
+        user: john,
+      
+      },
+      {
+        title: "The Martian",
+        description: "Novel by Andy Weir about an astronaut stranded on Mars trying to survive",
+        user: john,
+       
+      },
+      {
+        title: "Doom",
+        description: "A group of Marines is sent to the red planet via an ancient " \
+                     "Martian portal called the Ark to deal with an outbreak of a mutagenic virus",
+        user: jane,
+        
+      },
+      {
+        title: "Mars Attacks!",
+        description: "Earth is invaded by Martians with unbeatable weapons and a cruel sense of humor",
+        user: jane,
+      }
+    ]
+  )

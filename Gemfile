@@ -62,5 +62,17 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'solargraph', group: :development
 end
 
+
+gem "graphql", "~> 2.0"
+gem "graphiql-rails", group: :development
+
+gem "figaro", "~> 1.2"
+
+gem "prettier", "~> 3.1"
+
+gem "rspec-rails", "~> 5.1", :groups => [:development, :test]
+
+gem "factory_bot_rails", "~> 6.2"
