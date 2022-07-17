@@ -31,3 +31,5 @@
 /config/master.key
 .application.yml
 .env
+
+node_modules
