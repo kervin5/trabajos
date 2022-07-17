@@ -4,19 +4,8 @@ module Types
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
 
-    field :me, Types::UserType, null: true
-
-    field :jobs,
-          [Types::JobType],
-          null: false,
-          description: "Returns a list of jobs"
-
-    def jobs
-      Job.preload(:user).all
-    end
-
-    def me
-      context[:current_user]
-    end
+    field :me, resolver: Queries::Auth::MeQuery
+    field :jobs, resolver: Queries::Jobs::JobsQuery
+    field :job, resolver: Queries::Jobs::JobQuery
   end
 end

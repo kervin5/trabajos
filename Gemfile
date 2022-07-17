@@ -76,3 +76,7 @@ gem "prettier", "~> 3.1"
 gem "rspec-rails", "~> 5.1", :groups => [:development, :test]
 
 gem "factory_bot_rails", "~> 6.2"
+
+gem "acts-as-taggable-on", "~> 9.0"
+
+gem "mapbox-sdk", "~> 2.3"
