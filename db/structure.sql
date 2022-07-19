@@ -10,6 +10,76 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: cube; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS cube WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION cube; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION cube IS 'data type for multidimensional cubes';
+
+
+--
+-- Name: earthdistance; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS earthdistance WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION earthdistance; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION earthdistance IS 'calculate great-circle distances on the surface of the Earth';
+
+
+--
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
+
+
+--
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
+-- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION unaccent; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
+
+
+--
 -- Name: role; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -43,6 +113,15 @@ CREATE TYPE public.status AS ENUM (
 );
 
 
+--
+-- Name: pg_search_dmetaphone(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.pg_search_dmetaphone(text) RETURNS text
+    LANGUAGE sql IMMUTABLE STRICT
+    AS $_$ SELECT array_to_string(ARRAY(SELECT dmetaphone(unnest(regexp_split_to_array($1, E'\\s+')))), ' ') $_$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -74,7 +153,8 @@ CREATE TABLE public.jobs (
     updated_at timestamp(6) without time zone NOT NULL,
     location_id bigint,
     external_url character varying,
-    source public.source DEFAULT 'internal'::public.source NOT NULL
+    source public.source DEFAULT 'internal'::public.source NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS ((setweight(to_tsvector('spanish'::regconfig, (COALESCE(title, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('spanish'::regconfig, COALESCE(content, ''::text)), 'B'::"char"))) STORED
 );
 
 
@@ -107,7 +187,8 @@ CREATE TABLE public.locations (
     latitude double precision,
     longitude double precision,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    searchable tsvector GENERATED ALWAYS AS (setweight(to_tsvector('spanish'::regconfig, (COALESCE(name, ''::character varying))::text), 'A'::"char")) STORED
 );
 
 
@@ -349,6 +430,20 @@ CREATE INDEX index_jobs_on_location_id ON public.jobs USING btree (location_id);
 
 
 --
+-- Name: index_jobs_on_searchable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_jobs_on_searchable ON public.jobs USING gin (searchable);
+
+
+--
+-- Name: index_locations_on_searchable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_searchable ON public.locations USING gin (searchable);
+
+
+--
 -- Name: index_taggings_on_context; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -476,6 +571,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220717073730'),
 ('20220717073731'),
 ('20220717073732'),
-('20220717074315');
+('20220717074315'),
+('20220717222313'),
+('20220718042455'),
+('20220718042939'),
+('20220718043555'),
+('20220718045334'),
+('20220718050037'),
+('20220718051043');
 
 

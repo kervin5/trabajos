@@ -2,12 +2,12 @@ module Mutations
   module Jobs
     class UpdateJobMutation < Mutations::BaseMutation
       argument :id, ID, required: true
-      description "Attributes for updating an item"
+      argument :attributes, Types::Jobs::UpdateJobInput, required: true
 
-      field :job, Types::JobType, null: true
+      field :job, Types::Jobs::JobType, null: true
       field :errors, Types::ValidationErrorsType, null: true
 
-      def resolve(id:, title:, description: nil)
+      def resolve(attributes:)
         check_authentication!
 
         job = Job.find(id)

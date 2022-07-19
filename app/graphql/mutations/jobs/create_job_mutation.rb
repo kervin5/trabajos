@@ -1,12 +1,12 @@
 module Mutations
   module Jobs
     class CreateJobMutation < Mutations::BaseMutation
-      argument :attributes, Types::JobAttributes, required: true
+      argument :attributes, Types::Jobs::CreateJobInput, required: true
 
-      field :job, Types::JobType, null: true
+      field :job, Types::Jobs::JobType, null: true
       field :errors, Types::ValidationErrorsType, null: true
 
-      def resolve(title:, description: nil)
+      def resolve(attributes:)
         check_authentication!
 
         job = Job.new(attributes.to_h.merge(user: context[:current_user])) # change here

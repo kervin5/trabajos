@@ -1,11 +1,11 @@
 module Types
   class SubscriptionType < GraphQL::Schema::Object
     field :job_created,
-          Types::JobType,
+          Types::Jobs::JobType,
           null: false,
           description: "An job was created"
     field :job_updated,
-          Types::JobType,
+          Types::Jobs::JobType,
           null: false,
           description: "An job was updated"
 

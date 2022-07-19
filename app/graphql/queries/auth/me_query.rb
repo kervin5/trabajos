@@ -1,7 +1,7 @@
 module Queries
   module Auth
     class MeQuery < BaseQuery
-      type Types::UserType, null: true
+      type Types::Users::UserType, null: true
       description "Get the current user"
 
       def resolve

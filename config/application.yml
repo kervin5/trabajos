@@ -1,1 +1,2 @@
 DATABASE_URL: postgresql://kervin:password@localhost:5432/trabajos?
+MAPBOX_TOKEN: pk.eyJ1Ijoia2VydmluNSIsImEiOiJjand5Y3dqN24wYjVpNGFsY2M1eWlnd2o0In0.knqbxrfPvKIclpV_yrbMvA
