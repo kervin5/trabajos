@@ -7,10 +7,6 @@ module Queries
                required: true
 
       def resolve(filter:)
-        # JobsService::Jobs.find_many(
-        #   location_name: filter&.location_name,
-        #   search_string: filter&.search_string
-        # )
         GeolocationService::Geocoding.forward(
           filter[:location_name],
           filter: filter[:limit]

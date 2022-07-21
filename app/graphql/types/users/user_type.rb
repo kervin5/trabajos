@@ -10,6 +10,7 @@ module Types
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
       field :display_name, String, null: false
+      field :role, ::Types::Users::RoleType, null: false
 
       def display_name
         [object.first_name, object.last_name].compact.join(" ")

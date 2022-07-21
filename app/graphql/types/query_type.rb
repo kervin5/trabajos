@@ -12,7 +12,7 @@ module Types
     field :job, resolver: Queries::Jobs::JobQuery
 
     #Geolocation
-    field :forward_geolocation,
+    field :forward_geocoding,
           resolver: Queries::Geolocation::ForwardGeocodingQuery
   end
 end
