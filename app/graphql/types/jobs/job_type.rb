@@ -6,14 +6,20 @@ module Types
       field :id, ID, null: false
       field :title, String, null: false
       field :content, JobContentType, null: false
-      field :user_id, Integer, null: false
+      field :views, Integer, null: false
       field :created_at, GraphQL::Types::ISO8601DateTime, null: false
       field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
       field :author, Types::Users::UserType, null: false
       field :location, Types::Locations::LocationType, null: false
+      field :source, Types::Jobs::JobSourceType, null: false
+      field :status, Types::Jobs::JobStatusType, null: false
 
       def author
         dataloader.with(Sources::ActiveRecord, User).load(object.author_id)
+      end
+
+      def views
+        10
       end
 
       def location

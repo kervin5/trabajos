@@ -6,7 +6,7 @@ module Queries
       argument :id, ID, required: true
 
       def resolve(id:)
-        ::JobsService::Jobs.find_one(id)
+        ::JobsService::Jobs.find_by_id(id)
       end
     end
   end

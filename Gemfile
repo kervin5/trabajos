@@ -82,3 +82,7 @@ gem "acts-as-taggable-on", "~> 9.0"
 gem "mapbox-sdk", "~> 2.3"
 
 gem "pg_search", "~> 2.3"
+
+gem "devise_token_auth", git: "https://github.com/kervin5/devise_token_auth"
+
+gem "omniauth"

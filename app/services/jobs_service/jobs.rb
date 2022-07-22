@@ -28,5 +28,26 @@ module JobsService
 
       jobs
     end
+
+    def self.create_job(data, user)
+      location =
+        LocationsService::Locations.find_or_create_location_by_name(
+          data.location_name
+        )
+      job =
+        Job.create!(
+          title: data.title,
+          content: data.content,
+          location: location,
+          author: user
+        )
+
+      if data.tags.present?
+        job.tag_list.add(data.tags)
+        job.save
+      end
+
+      job
+    end
   end
 end

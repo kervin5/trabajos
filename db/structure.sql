@@ -295,13 +295,31 @@ CREATE TABLE public.users (
     id bigint NOT NULL,
     first_name character varying,
     last_name character varying,
-    email character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    password character varying NOT NULL,
     phone character varying,
-    email_verified boolean DEFAULT false NOT NULL,
-    role public.role DEFAULT 'candidate'::public.role NOT NULL
+    role public.role DEFAULT 'candidate'::public.role NOT NULL,
+    provider character varying DEFAULT 'email'::character varying NOT NULL,
+    uid character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp(6) without time zone,
+    allow_password_change boolean DEFAULT false,
+    remember_created_at timestamp(6) without time zone,
+    confirmation_token character varying,
+    confirmed_at timestamp(6) without time zone,
+    confirmation_sent_at timestamp(6) without time zone,
+    unconfirmed_email character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp(6) without time zone,
+    email character varying,
+    tokens json,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp(6) without time zone,
+    last_sign_in_at timestamp(6) without time zone,
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying
 );
 
 
@@ -507,6 +525,34 @@ CREATE UNIQUE INDEX index_tags_on_name ON public.tags USING btree (name);
 
 
 --
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_uid_and_provider; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_uid_and_provider ON public.users USING btree (uid, provider);
+
+
+--
 -- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -578,6 +624,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220718043555'),
 ('20220718045334'),
 ('20220718050037'),
-('20220718051043');
+('20220718051043'),
+('20220721195214');
 
 

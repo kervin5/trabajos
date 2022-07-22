@@ -9,9 +9,9 @@ module Mutations
       def resolve(data:)
         check_authentication!
 
-        job = Job.new(data.to_h.merge(user: context[:current_user])) # change here
+        job = ::JobsService::Jobs.create_job(data, context[:current_user])
 
-        if job.save
+        if job
           TrabajosSchema.subscriptions.trigger("jobCreated", {}, job)
           { job: job }
         else
