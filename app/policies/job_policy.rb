@@ -8,6 +8,10 @@ class JobPolicy < ApplicationPolicy
     user.present? && (user.is_admin? || user.is_employer?)
   end
 
+  def like?
+    user.present?
+  end
+
   class Scope < Scope
     def resolve
       puts self.methods.inspect

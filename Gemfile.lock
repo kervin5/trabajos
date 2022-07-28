@@ -77,6 +77,7 @@ GEM
       tzinfo (~> 2.0)
     acts-as-taggable-on (9.0.1)
       activerecord (>= 6.0, < 7.1)
+    acts_as_votable (0.13.2)
     ast (2.4.2)
     backport (1.2.0)
     bcrypt (3.1.18)
@@ -115,10 +116,6 @@ GEM
       railties
       sprockets-rails
     graphql (2.0.11)
-    graphql_devise (0.11.4)
-      devise_token_auth (>= 0.1.43)
-      graphql (>= 1.8)
-      rails (>= 4.2)
     haml (5.2.2)
       temple (>= 0.8.0)
       tilt
@@ -345,6 +342,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 9.0)
+  acts_as_votable
   bootsnap
   debug
   devise_token_auth!
@@ -352,7 +350,6 @@ DEPENDENCIES
   figaro (~> 1.2)
   graphiql-rails
   graphql (~> 2.0)
-  graphql_devise
   importmap-rails
   jbuilder
   mapbox-sdk (~> 2.3)

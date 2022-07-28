@@ -17,7 +17,23 @@ module Types
       field :views,
             Integer,
             null: false,
-            description: "number of times user has viewed your post"
+            description: "number of times user has viewed the post"
+      field :likes,
+            Integer,
+            null: false,
+            description: "number of likes the job has"
+      field :comments,
+            Integer,
+            null: false,
+            description: "number of comments the job has"
+      field :shares,
+            Integer,
+            null: false,
+            description: "number of shares the job has"
+      field :liked_by_current_user,
+            Boolean,
+            null: false,
+            description: "Has the current user liked the job?"
 
       def author
         dataloader.with(Sources::ActiveRecord, User).load(object.author_id)
@@ -25,6 +41,18 @@ module Types
 
       def views
         10
+      end
+
+      def comments
+        90
+      end
+
+      def likes
+        object.get_likes.size
+      end
+
+      def shares
+        40
       end
 
       def location
@@ -47,6 +75,10 @@ module Types
 
       def tags
         object.tags
+      end
+
+      def liked_by_current_user
+        current_user.present? && current_user.liked?(object)
       end
     end
   end

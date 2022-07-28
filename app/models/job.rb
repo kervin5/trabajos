@@ -5,6 +5,7 @@ class Job < ApplicationRecord
   validates :title, presence: true
   validates :content, length: { minimum: 10 }, allow_blank: true
   acts_as_taggable_on :tags
+  acts_as_votable
 
   pg_search_scope :by_text,
                   against: %i[title content],

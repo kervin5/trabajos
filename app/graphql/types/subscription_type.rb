@@ -8,10 +8,22 @@ module Types
           Types::Jobs::JobType,
           null: false,
           description: "An job was updated"
+    field :job_liked,
+          Types::Jobs::JobType,
+          null: false,
+          description: "An job was liked"
+    field :job_unliked,
+          Types::Jobs::JobType,
+          null: false,
+          description: "An job was liked"
 
     def job_created
     end
     def job_updated
+    end
+    def job_liked
+    end
+    def job_unliked
     end
   end
 end

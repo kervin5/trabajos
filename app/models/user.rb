@@ -11,6 +11,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   has_many :jobs
   acts_as_taggable_on :tags
+  acts_as_voter
 
   def is_admin?
     self.role == "admin"

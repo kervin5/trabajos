@@ -1,11 +1,9 @@
 module Types
   class MutationType < Types::BaseObject
-    #Auth
-    field :login, mutation: Mutations::Auth::LoginMutation
-    field :register, mutation: Mutations::Auth::LoginMutation
-
     #Jobs
     field :create_job, mutation: Mutations::Jobs::CreateJobMutation
     field :update_job, mutation: Mutations::Jobs::UpdateJobMutation
+    field :like_job, mutation: Mutations::Jobs::LikeJobMutation
+    field :unlike_job, mutation: Mutations::Jobs::UnlikeJobMutation
   end
 end
