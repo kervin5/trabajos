@@ -11,4 +11,12 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   has_many :jobs
   acts_as_taggable_on :tags
+
+  def is_admin?
+    self.role == "admin"
+  end
+
+  def is_employer?
+    self.role == "employer"
+  end
 end

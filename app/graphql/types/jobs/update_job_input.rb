@@ -6,6 +6,7 @@ module Types
       argument :content, String, "Content of the job", required: false
       argument :location_name, String, "Location of the job", required: false
       argument :tags, [String], "Tags", required: false
+      argument :status, Types::Jobs::JobStatusType, required: false
     end
   end
 end

@@ -4,6 +4,11 @@ module Types
       description "Attributes to fitler jobs"
       argument :search_string, String, required: false
       argument :location_name, String, required: false
+      argument :status,
+               [Types::Jobs::JobStatusType],
+               required: false,
+               default_value: ["published"]
+      argument :admin, Boolean, required: false, default_value: false
     end
   end
 end

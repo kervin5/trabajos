@@ -6,5 +6,11 @@ module Types
     edges_nullable(false)
     edge_nullable(false)
     node_nullable(false)
+
+    field :total_count, Integer, null: false
+
+    def total_count
+      object.items.size
+    end
   end
 end

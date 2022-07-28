@@ -115,6 +115,10 @@ GEM
       railties
       sprockets-rails
     graphql (2.0.11)
+    graphql_devise (0.11.4)
+      devise_token_auth (>= 0.1.43)
+      graphql (>= 1.8)
+      rails (>= 4.2)
     haml (5.2.2)
       temple (>= 0.8.0)
       tilt
@@ -191,6 +195,8 @@ GEM
     prettier_print (0.1.0)
     puma (5.6.4)
       nio4r (~> 2.0)
+    pundit (2.2.0)
+      activesupport (>= 3.0.0)
     racc (1.6.0)
     rack (2.2.4)
     rack-protection (2.2.1)
@@ -346,6 +352,7 @@ DEPENDENCIES
   figaro (~> 1.2)
   graphiql-rails
   graphql (~> 2.0)
+  graphql_devise
   importmap-rails
   jbuilder
   mapbox-sdk (~> 2.3)
@@ -354,6 +361,7 @@ DEPENDENCIES
   pg_search (~> 2.3)
   prettier (~> 3.1)
   puma (~> 5.0)
+  pundit
   rails (~> 7.0.3, >= 7.0.3.1)
   rspec-rails (~> 5.1)
   solargraph

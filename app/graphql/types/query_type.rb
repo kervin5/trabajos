@@ -14,5 +14,8 @@ module Types
     #Geolocation
     field :forward_geocoding,
           resolver: Queries::Geolocation::ForwardGeocodingQuery
+
+    #Tags
+    field :tags, resolver: Queries::Tags::TagsQuery
   end
 end

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   #Allows deviste params to work on a API app
   include DeviseTokenAuth::Concerns::SetUserByToken
+  include Pundit::Authorization
   wrap_parameters false
   # protect_from_forgery unless: -> { request.format.json? }
   skip_before_action :verify_authenticity_token

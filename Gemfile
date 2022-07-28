@@ -48,32 +48,13 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
-end
-
-group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
-
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-  gem 'solargraph', group: :development
-end
-
-
 gem "graphql", "~> 2.0"
-gem "graphiql-rails", group: :development
+
 
 gem "figaro", "~> 1.2"
 
 gem "prettier", "~> 3.1"
 
-gem "rspec-rails", "~> 5.1", :groups => [:development, :test]
 
 gem "factory_bot_rails", "~> 6.2"
 
@@ -86,3 +67,26 @@ gem "pg_search", "~> 2.3"
 gem "devise_token_auth", git: "https://github.com/kervin5/devise_token_auth"
 
 gem "omniauth"
+
+gem "pundit"
+
+group :development, :test do
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+
+  gem "rspec-rails", "~> 5.1"
+end
+
+group :development do
+  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "web-console"
+
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem "rack-mini-profiler"
+
+  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # gem "spring"
+  gem 'solargraph', group: :development
+
+  gem "graphiql-rails"
+end

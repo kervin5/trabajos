@@ -7,9 +7,7 @@ module Mutations
       field :errors, Types::ValidationErrorsType, null: true
 
       def resolve(data:)
-        check_authentication!
-
-        job = ::JobsService::Jobs.create_job(data, context[:current_user])
+        job = Job.create_with_user(data, current_user)
 
         if job
           TrabajosSchema.subscriptions.trigger("jobCreated", {}, job)
@@ -17,6 +15,10 @@ module Mutations
         else
           { errors: job.errors } # change here
         end
+      end
+
+      def authorized?(args)
+        authorize!(:job, :create?)
       end
     end
   end

@@ -1,23 +1,25 @@
 module Mutations
   module Jobs
     class UpdateJobMutation < Mutations::BaseMutation
-      argument :id, ID, required: true
+      argument :job_id, ID, required: true
       argument :data, Types::Jobs::UpdateJobInput, required: true
 
       field :job, Types::Jobs::JobType, null: true
       field :errors, Types::ValidationErrorsType, null: true
 
-      def resolve(data:)
-        check_authentication!
+      def resolve(job_id:, data:)
+        job = Job.find(job_id)
 
-        job = Job.find(id)
-
-        if job.update(data.to_h)
+        if job.update_with_data(data)
           TrabajosSchema.subscriptions.trigger("jobUpdated", {}, job)
           { job: job }
         else
           { errors: job.errors }
         end
+      end
+
+      def authorized?(args)
+        authorize!(:job, :update?)
       end
     end
   end
