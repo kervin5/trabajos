@@ -12,6 +12,10 @@ class JobPolicy < ApplicationPolicy
     user.present?
   end
 
+  def comment?
+    user.present?
+  end
+
   class Scope < Scope
     def resolve
       puts self.methods.inspect

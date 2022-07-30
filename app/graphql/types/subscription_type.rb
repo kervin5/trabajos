@@ -16,6 +16,10 @@ module Types
           Types::Jobs::JobType,
           null: false,
           description: "An job was liked"
+    field :job_comment_created,
+          Types::Jobs::JobType,
+          null: false,
+          description: "An job was commented on"
 
     def job_created
     end
@@ -24,6 +28,9 @@ module Types
     def job_liked
     end
     def job_unliked
+    end
+
+    def job_comment_created
     end
   end
 end

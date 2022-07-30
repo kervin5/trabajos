@@ -23,9 +23,9 @@ module Types
             null: false,
             description: "number of likes the job has"
       field :comments,
-            Integer,
+            Types::Comments::CommentType.connection_type,
             null: false,
-            description: "number of comments the job has"
+            description: "Comments the job has"
       field :shares,
             Integer,
             null: false,
@@ -44,7 +44,7 @@ module Types
       end
 
       def comments
-        90
+        object.root_comments
       end
 
       def likes

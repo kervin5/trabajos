@@ -3,10 +3,10 @@ module Queries
     class JobQuery < BaseQuery
       type Types::Jobs::JobType, null: true
 
-      argument :id, ID, required: true
+      argument :job_id, ID, required: true
 
-      def resolve(id:)
-        ::JobsService::Jobs.find_by_id(id)
+      def resolve(job_id:)
+        ::JobsService::Jobs.find_by_id(job_id)
       end
     end
   end

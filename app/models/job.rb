@@ -1,12 +1,17 @@
 class Job < ApplicationRecord
   include ::PgSearch::Model
+  #Third party mixins
+  acts_as_taggable_on :tags
+  acts_as_votable
+  acts_as_commentable
+
+  # Associations
   belongs_to :author, class_name: :User
   belongs_to :location
   validates :title, presence: true
   validates :content, length: { minimum: 10 }, allow_blank: true
-  acts_as_taggable_on :tags
-  acts_as_votable
 
+  #Scopes
   pg_search_scope :by_text,
                   against: %i[title content],
                   associated_against: {
