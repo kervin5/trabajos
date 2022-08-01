@@ -251,6 +251,50 @@ ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.messages (
+    id integer NOT NULL,
+    topic character varying,
+    body text,
+    received_messageable_type character varying,
+    received_messageable_id bigint,
+    sent_messageable_type character varying,
+    sent_messageable_id bigint,
+    opened boolean DEFAULT false,
+    recipient_delete boolean DEFAULT false,
+    sender_delete boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    ancestry character varying,
+    recipient_permanent_delete boolean DEFAULT false,
+    sender_permanent_delete boolean DEFAULT false,
+    opened_at timestamp without time zone
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.messages_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -440,6 +484,13 @@ ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.lo
 
 
 --
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
 -- Name: taggings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -500,6 +551,14 @@ ALTER TABLE ONLY public.locations
 
 
 --
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -537,6 +596,27 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT votes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: acts_as_messageable_ids; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX acts_as_messageable_ids ON public.messages USING btree (sent_messageable_id, received_messageable_id);
+
+
+--
+-- Name: acts_as_messageable_received; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX acts_as_messageable_received ON public.messages USING btree (received_messageable_id, received_messageable_type);
+
+
+--
+-- Name: acts_as_messageable_sent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX acts_as_messageable_sent ON public.messages USING btree (sent_messageable_id, sent_messageable_type);
 
 
 --
@@ -579,6 +659,13 @@ CREATE INDEX index_jobs_on_searchable ON public.jobs USING gin (searchable);
 --
 
 CREATE INDEX index_locations_on_searchable ON public.locations USING gin (searchable);
+
+
+--
+-- Name: index_messages_on_ancestry; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_ancestry ON public.messages USING btree (ancestry);
 
 
 --
@@ -775,6 +862,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220718051043'),
 ('20220721195214'),
 ('20220728083629'),
-('20220728103323');
+('20220728103323'),
+('20220730072729'),
+('20220730072730'),
+('20220730072731'),
+('20220730072732');
 
 

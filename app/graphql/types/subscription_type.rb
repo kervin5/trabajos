@@ -20,6 +20,7 @@ module Types
           Types::Jobs::JobType,
           null: false,
           description: "An job was commented on"
+    field :message_sent, subscription: Subscriptions::MessageSentSubscription
 
     def job_created
     end
@@ -32,5 +33,9 @@ module Types
 
     def job_comment_created
     end
+
+    #     def message_sent
+    #       "newMessage" + Time.now.to_s
+    #     end
   end
 end

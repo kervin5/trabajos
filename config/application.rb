@@ -35,5 +35,10 @@ module Trabajos
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    #TODO: Look into enabling this
+    config.action_cable.disable_request_forgery_protection = true
+
+    config.action_cable.mount_path = "/cable"
   end
 end

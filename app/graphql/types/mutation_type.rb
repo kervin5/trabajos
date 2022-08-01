@@ -7,5 +7,9 @@ module Types
     field :unlike_job, mutation: Mutations::Jobs::UnlikeJobMutation
     field :create_job_comment_mutation,
           mutation: Mutations::Jobs::CreateJobCommentMutation
+
+    #Messages
+    field :send_message_to_job_author,
+          mutation: Mutations::Messages::SendMessageToJobAuthorMutation
   end
 end

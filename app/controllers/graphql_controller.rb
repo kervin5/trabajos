@@ -14,6 +14,7 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       current_user: current_user,
+      current_user_id: current_user&.id,
       pundit: self
     }
     result =

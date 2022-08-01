@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :jobs
   acts_as_taggable_on :tags
   acts_as_voter
+  acts_as_messageable
 
   def is_admin?
     self.role == "admin"

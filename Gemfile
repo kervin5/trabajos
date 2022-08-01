@@ -48,8 +48,7 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-gem "graphql", "~> 2.0"
-
+gem "graphql"
 
 gem "figaro", "~> 1.2"
 
@@ -73,6 +72,10 @@ gem "pundit"
 gem 'acts_as_votable'
 
 gem 'acts_as_commentable_with_threading'
+
+gem 'acts-as-messageable'
+
+gem 'rack-cors'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

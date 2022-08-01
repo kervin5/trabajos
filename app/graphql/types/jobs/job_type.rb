@@ -44,7 +44,7 @@ module Types
       end
 
       def comments
-        object.root_comments
+        object.root_comments.order(created_at: :desc)
       end
 
       def likes

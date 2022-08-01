@@ -75,6 +75,11 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    acts-as-messageable (0.5.0)
+      activerecord
+      activesupport
+      ancestry
+      railties
     acts-as-taggable-on (9.0.1)
       activerecord (>= 6.0, < 7.1)
     acts_as_commentable_with_threading (2.0.1)
@@ -82,6 +87,8 @@ GEM
       activesupport (>= 4.0)
       awesome_nested_set (>= 3.0)
     acts_as_votable (0.13.2)
+    ancestry (4.2.0)
+      activerecord (>= 5.2.6)
     ast (2.4.2)
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
@@ -121,7 +128,7 @@ GEM
     graphiql-rails (1.8.0)
       railties
       sprockets-rails
-    graphql (2.0.11)
+    graphql (2.0.12)
     haml (5.2.2)
       temple (>= 0.8.0)
       tilt
@@ -202,6 +209,8 @@ GEM
       activesupport (>= 3.0.0)
     racc (1.6.0)
     rack (2.2.4)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-protection (2.2.1)
       rack
     rack-test (2.0.2)
@@ -347,6 +356,7 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
+  acts-as-messageable
   acts-as-taggable-on (~> 9.0)
   acts_as_commentable_with_threading
   acts_as_votable
@@ -356,7 +366,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6.2)
   figaro (~> 1.2)
   graphiql-rails
-  graphql (~> 2.0)
+  graphql
   importmap-rails
   jbuilder
   mapbox-sdk (~> 2.3)
@@ -366,6 +376,7 @@ DEPENDENCIES
   prettier (~> 3.1)
   puma (~> 5.0)
   pundit
+  rack-cors
   rails (~> 7.0.3, >= 7.0.3.1)
   rspec-rails (~> 5.1)
   solargraph
