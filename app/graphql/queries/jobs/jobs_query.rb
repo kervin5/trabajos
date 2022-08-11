@@ -5,21 +5,16 @@ module Queries
       argument :filter, Types::Jobs::JobsFilterInput, required: false
       argument :admin, Boolean, required: false, default_value: false
 
-      def resolve(filter: nil, admin: false)
+      def resolve(filter: {}, admin: false)
+        filter = filter.to_h
+        #We're overriding the filter filter when the user is not an admin to only  show published jobs
         if admin
-          policy_scope(
-            JobsService::Jobs.find_many(
-              location_name: filter&.location_name,
-              search_string: filter&.search_string,
-              status: filter&.status
-            )
-          )
+          #When the user is looking at an admin page they can see all jobs that they policy allows
+          policy_scope(::JobsQuery.new().call(filter))
         else
-          JobsService::Jobs.find_many(
-            location_name: filter&.location_name,
-            search_string: filter&.search_string,
-            status: [Job::STATUS[:PUBLISHED]]
-          )
+          filter = filter.merge(status: [Job::STATUS[:PUBLISHED]])
+          #When the user is not looking at an admin page, we only want to show jobs that are published
+          ::JobsQuery.new().call(filter)
         end
       end
     end

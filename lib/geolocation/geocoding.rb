@@ -1,4 +1,4 @@
-module GeolocationService
+module Geolocation
   class Geocoding
     def self.forward(name, limit = 10)
       places =

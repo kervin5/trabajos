@@ -5,6 +5,7 @@ module Types
       field :total_draft_count, Integer, null: false
       field :total_expired_count, Integer, null: false
       field :total_archived_count, Integer, null: false
+      field :published, [Types::Jobs::JobType], null: false
 
       def total_published_count
         object.items.where(status: Job::STATUS[:PUBLISHED]).size
@@ -20,6 +21,10 @@ module Types
 
       def total_archived_count
         object.items.where(status: Job::STATUS[:ARCHIVED]).size
+      end
+
+      def published
+        ::JobsQuery.new().call({ status: [Job::STATUS[:PUBLISHED]] })
       end
     end
   end

@@ -4,7 +4,7 @@ module Subscriptions
     # For a given viewer, this will be triggered
     # whenever one of their posts gets a new comment
 
-    # subscription_scope :current_user_id
+    subscription_scope :current_user_id
     field :status, String
     # payload_type String
 

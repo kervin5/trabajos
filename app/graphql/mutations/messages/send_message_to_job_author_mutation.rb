@@ -2,39 +2,32 @@ module Mutations
   module Messages
     class SendMessageToJobAuthorMutation < Mutations::BaseMutation
       argument :job_id, ID, required: true
-      argument :message, String, required: true
-      field :message, String
-      field :topic, String
-      field :id, ID
-      # field :job, Types::Jobs::JobType, null: true
+      argument :body, String, required: true
+      field :message, Types::Messages::MessageType, null: true
+
       # field :errors, Types::ValidationErrorsType, null: true
 
-      def resolve(job_id:, message:, topic: nil)
+      def resolve(job_id:, body:, topic: nil)
         job = Job.find(job_id)
-        author = job.author
+        recipient = job.author
         sender = current_user
-        topic =
-          (
-            if topic.present?
-              topic
-            else
-              "#{sender.first_name} #{sender.last_name} - #{job.id}: #{job.title}"
-            end
-          )
-        if sender.send_message(author, topic, message)
+        topic = topic.presence || "#{job.id}: #{job.title}"
+        result = sender.send_message(recipient, topic, body)
+
+        if result
           TrabajosSchema.subscriptions.trigger(
             "messageSent",
             {},
-            { status: "newMessage" + Time.now.to_s }
-            # ,
-            # scope: author.id
+            { status: "newMessage" + Time.now.to_s },
+            scope: recipient.id
           )
-          { message: message, topic: topic }
+          { message: result, topic: topic }
         else
-          { errors: job.errors }
+          { errors: result.errors }
         end
       end
 
+      #TODO: Update permission
       def authorized?(args)
         authorize!(:job, :like?)
       end

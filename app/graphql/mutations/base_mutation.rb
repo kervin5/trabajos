@@ -1,5 +1,5 @@
 module Mutations
   class BaseMutation < GraphQL::Schema::Mutation
-    include GraphqlAuthHelper
+    include GraphqlAuth
   end
 end

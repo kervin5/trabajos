@@ -30,19 +30,6 @@ class Job < ApplicationRecord
                   },
                   ignoring: :accents
 
-  scope :by_location_coordinates,
-        ->(latitude:, longitude:, distance: 20) {
-          joins(:location).where(
-            "(earth_box(ll_to_earth(:latitude, :longitude), :distance) @> ll_to_earth(locations.latitude, locations.longitude)
-    AND earth_distance(ll_to_earth (:latitude, :longitude), ll_to_earth (locations.latitude, locations.longitude)) < :distance)",
-            {
-              latitude: latitude,
-              longitude: longitude,
-              distance: distance * 1000
-            }
-          )
-        }
-
   STATUS = {
     DRAFT: "draft",
     PUBLISHED: "published",

@@ -8,7 +8,6 @@ module Types
 
     #Jobs
     field :jobs, resolver: Queries::Jobs::JobsQuery
-    field :published_jobs, resolver: Queries::Jobs::PublishedJobsQuery
     field :job, resolver: Queries::Jobs::JobQuery
 
     #Geolocation
@@ -17,5 +16,9 @@ module Types
 
     #Tags
     field :tags, resolver: Queries::Tags::TagsQuery
+
+    #Messages
+    field :message_conversation,
+          resolver: Queries::Messages::MessageConversationQuery
   end
 end

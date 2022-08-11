@@ -1,4 +1,4 @@
-module GraphqlAuthHelper
+module GraphqlAuth
   def current_user
     context[:current_user].presence
   end
@@ -9,8 +9,10 @@ module GraphqlAuthHelper
   end
 
   def authorize!(class_key, action)
+    #TODO: update to support namespaced classes
     authenticate_user!
     class_constant = class_key.to_s.camelize.constantize
+    # class_key.is_a? Array ? class_key.m : class_key.to_s.camelize.constantize
     id_key = (class_key.to_s + "_id").to_sym
 
     pundit_obj_arg =
@@ -28,7 +30,7 @@ module GraphqlAuthHelper
     end
   end
 
-  def policy_scope(items, skip_policy: false)
-    skip_policy ? items : context[:pundit].policy_scope(items)
+  def policy_scope(items)
+    context[:pundit].policy_scope(items)
   end
 end

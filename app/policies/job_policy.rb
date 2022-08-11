@@ -18,7 +18,6 @@ class JobPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      puts self.methods.inspect
       user.present? && user.is_admin? ?
         scope :
         if user.present? && user.is_employer?

@@ -7,7 +7,7 @@ module Queries
                required: true
 
       def resolve(filter:)
-        GeolocationService::Geocoding.forward(
+        ::Geolocation::Geocoding.forward(
           filter[:location_name],
           filter: filter[:limit]
         )

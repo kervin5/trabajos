@@ -1,48 +1,51 @@
 class JobsQuery
   attr_accessor :initial_scope
 
-  def initialize(initial_scope)
+  def initialize(initial_scope = Job.all)
     @initial_scope = initial_scope
   end
 
-  def call(params)
-    scoped = search(initial_scope, params[:search])
-    scoped = filter_by_price(scoped, params[:from_price], params[:to_price])
-    scoped = filter_by_properties(scoped, params[:properties])
-    scoped = filter_by_category(scoped, params[:category_id])
-    scoped = sort(scoped, params[:sort_type], params[:sort_direction])
-    scoped = paginate(scoped, params[:page])
+  def call(scope_filters)
+    filters = scope_filters.presence || {}
+    scoped = initial_scope
+    scoped = status(scoped, filters[:status])
+    scoped = location_name(scoped, filters[:location_name])
+    scoped = search(scoped, filters[:search])
     scoped
   end
 
   private
 
-  def search(scoped, query = nil)
-    query ? scoped.where("title ILIKE '%?%'", query) : scoped
+  def status(scoped, status = nil)
+    status ? scoped.where(status: status) : scoped
   end
 
-  def filter_by_price(scoped, from = nil, to = nil)
-    from_price ? scoped.where("price > ?", from_price) : scoped
-    to_price ? scoped.where("price < ?", to_price) : scoped
-  end
+  def location_name(scoped, location_name = nil, radius = 20)
+    if location_name
+      location = Location.find_or_create_location_by_name(location_name)
 
-  def filter_by_properties(scoped, properties = nil)
-    if properties
-      scoped.joins(:product_properties).where(property_id: properties)
+      if location.present?
+        scoped.joins(:location).where(
+          "(earth_box(ll_to_earth(:latitude, :longitude), :distance) @> ll_to_earth(locations.latitude, locations.longitude) AND earth_distance(ll_to_earth (:latitude, :longitude), ll_to_earth (locations.latitude, locations.longitude)) < :distance)",
+          {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            distance: radius * 1000
+          }
+        )
+      else
+        scoped
+      end
     else
       scoped
     end
   end
 
-  def filter_by_category(scoped, category_id = nil)
-    category_id ? scoped.where(category_id: category_id) : scoped
-  end
-
-  def sort(scoped, sort_type = :desc, sort_direction = :price)
-    scoped.order(sort_type => sort_direction)
-  end
-
-  def paginate(scoped, page_number = 0)
-    scoped.page(page_number)
+  def search(scoped, search_string = nil)
+    if search_string && search_string.size > 0
+      scoped.by_text(search_string)
+    else
+      scoped
+    end
   end
 end
